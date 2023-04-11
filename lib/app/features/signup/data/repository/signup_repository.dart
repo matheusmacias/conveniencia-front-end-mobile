@@ -10,7 +10,7 @@ class SignupRepository implements SignupRepositoryImp{
   SignupRepository({required this.datasource});
 
   @override
-  Future<Either<Failure, void>> register(FormModel formmodel) async {
+  Future<Either<Failure, Map<String, dynamic>>> register(FormModel formmodel) async {
     try{
       final results = await datasource.register(formmodel);
       return Right(results);
