@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignupCubit extends Cubit<SignupStatus>{
   SignupCubit({required this.registerusecase}):super(InitState());
-  final RegisterUsecase registerusecase;
+  final RegisterUseCase registerusecase;
 
-  Future<void> register(FormModel formmodel) async{
+  Future<void> register(FormModel formModel) async{
     emit(Loading());
-    final results = await registerusecase(formmodel);
+    final results = await registerusecase(formModel);
     emit(results.fold((error) => ErrorSignup(error), (_) => Sucessfull()));
   }
 
