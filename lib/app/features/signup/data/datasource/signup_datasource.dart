@@ -7,21 +7,29 @@ import 'package:http/http.dart' as http;
 
 // http://127.0.0.1:5000/user/create
 class SignupDatasource implements SignupDatasourceImpl {
-  var url = Uri.parse('http://192.168.15.9:3000/user/create');
+  var url = Uri.parse('http://10.10.80.224:3000/user/create');
 
   @override
-  Future<Map<String, dynamic>> register(FormModel formmodel) async {
-    try{
+  Future<Map<String, dynamic>> register(FormModel formModel) async {
+    try {
       final response = await http.post(url, body: {
-        'email': formmodel.email,
-        'password': formmodel.password
+        'email': formModel.email,
+        'password': formModel.password
       });
+
+      if(response.statusCode != 200){
+        Map<String, dynamic> jsonObj = json.decode(response.body);
+        print(jsonObj);
+        throw CommonDesconhecidoError(message: jsonObj["message"]);
+      }
 
       final responseJson = jsonDecode(response.body);
       return responseJson;
-    } on HttpException catch(e){
+
+    } on HttpException catch(e) {
       print(e);
       throw CommonDesconhecidoError(message: e.message);
     }
   }
 }
+

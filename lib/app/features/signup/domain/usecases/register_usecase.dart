@@ -3,12 +3,12 @@ import 'package:conveniencia/app/features/signup/data/models/form_model.dart';
 import 'package:conveniencia/app/features/signup/domain/repositories/isignup_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class RegisterUsecase{
+class RegisterUseCase{
   final SignupRepositoryImp repository;
 
-  RegisterUsecase({required this.repository});
+  RegisterUseCase({required this.repository});
 
-  Future<Either<Failure, void>> call(FormModel formmodel) async{
-    return await repository.register(formmodel);
+  Future<Either<Failure, Map<String, dynamic>>> call(FormModel formModel) async{
+    return await repository.register(formModel);
   }
 }

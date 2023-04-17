@@ -1,14 +1,18 @@
 import 'package:conveniencia/app/common/error/failure.dart';
 
-abstract class SignupStatus {}
+abstract class SignupState {}
 
-class InitState extends SignupStatus {}
+class InitState extends SignupState {}
 
-class Loading extends  SignupStatus{}
+class Loading extends  SignupState {}
 
-class Sucessfull extends SignupStatus {}
+class Sucessfull extends SignupState {
+  final Map<String, dynamic> map;
 
-class ErrorSignup extends SignupStatus {
+  Sucessfull(this.map);
+}
+
+class ErrorSignup extends SignupState {
   final Failure error;
 
   ErrorSignup(this.error);

@@ -1,6 +1,6 @@
 import 'package:conveniencia/app/features/signup/data/models/form_model.dart';
-import 'package:conveniencia/app/features/signup/presenter/controller/sign_cubit.dart';
-import 'package:conveniencia/app/features/signup/presenter/controller/signup_status.dart';
+import 'package:conveniencia/app/features/signup/presenter/controller/signup_cubit.dart';
+import 'package:conveniencia/app/features/signup/presenter/controller/signup_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -40,10 +40,19 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<SignupCubit, SignupStatus>(
+      body: BlocListener<SignupCubit, SignupState>(
         bloc: cubit,
         listener: (context, state) {
+          if(state is ErrorSignup){
+            print(state.error.toString());
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error.errorMessage)),
+            );
+          }
           if (state is Sucessfull) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.map["message"])),
+            );
             Navigator.pushNamedAndRemoveUntil(
                 context, Routes.home, (route) => false);
             return;
@@ -105,10 +114,6 @@ class _SignupScreenState extends State<SignupScreen> {
                             cubit.register(FormModel(
                                 email: _emailController.text,
                                 password: _passwordController.text));
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Carregando dados...')),
-                            );
                           }
                         },
                         style: ElevatedButton.styleFrom(
