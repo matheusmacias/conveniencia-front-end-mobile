@@ -6,7 +6,7 @@ import 'package:conveniencia/app/features/login/domain/datasource/ilogin_datasou
 import 'package:http/http.dart' as http;
 
 class LoginDatasource implements LoginDatasourceImpl{
-  var url = Uri.parse('http://10.10.80.224:3000/user/login');
+  var url = Uri.parse('http://10.15.26.119:3000/user/login');
 
   @override
   Future<Map<String, dynamic>> login(FormLoginModel formLoginModel) async{
@@ -15,6 +15,7 @@ class LoginDatasource implements LoginDatasourceImpl{
         'email': formLoginModel.email,
         'password': formLoginModel.password
       });
+
       if(response.statusCode != 200){
         Map<String, dynamic> jsonObj = json.decode(response.body);
         throw CommonDesconhecidoError(message: jsonObj["message"]);
