@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 10),
                   TextButton(
                     onPressed: () =>
-                        Navigator.pushNamed(context, Routes.signup),
+                        Navigator.popAndPushNamed(context, Routes.signup),
                     child: const Text(
                       "Não tem uma conta? Começar",
                       style: TextStyle(fontSize: 18),

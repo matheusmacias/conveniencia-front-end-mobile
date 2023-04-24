@@ -6,8 +6,6 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-
-import '../../../signup/presenter/controller/signup_cubit.dart';
 import 'controller/door_state.dart';
 
 class QRCodeScreen extends StatefulWidget {
@@ -36,6 +34,12 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancelar', true, ScanMode.QR);
 
+      if(barcodeScanRes != const String.fromEnvironment('URL_SITE')){
+        barcodeScanRes = 'Ops!! QRCode inválido, tente novamente';
+      }else{
+        barcodeScanRes = 'QRcode detectado!';
+        cubit.openDoor(FormDoorModel(token: "token"));
+      }
       setState(() {
         _ticket = barcodeScanRes;
       });
@@ -53,7 +57,18 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
     return BlocListener<DoorCubit, DoorState>(
       bloc: cubit,
       listener: (context, state) {
-        // Aqui você pode atualizar a interface do usuário com base no estado atual do DoorCubit
+        if(state is DoorSuccessfull){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.map["message"])),
+          );
+          print("ok");
+        }
+        if(state is DoorError){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.error.errorMessage)),
+          );
+          print("error");
+        }
       },
       child: Scaffold(
         appBar: AppBar(

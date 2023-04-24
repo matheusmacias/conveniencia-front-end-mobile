@@ -7,15 +7,15 @@ import 'package:conveniencia/app/features/signup/data/datasource/signup_datasour
 import 'package:conveniencia/app/features/signup/presenter/controller/signup_cubit.dart';
 import '../datasource/isignup_datasource.dart';
 
-class SignupInjectDependece {
-  static void init(GetIt getit) {
-    getit.registerFactory<SignupDatasourceImpl>(
+class SignupInjectDependence {
+  static void init(GetIt getIt) {
+    getIt.registerFactory<SignupDatasourceImpl>(
         () => SignupDatasource());
-    getit.registerFactory<SignupRepositoryImp>(
-        () => SignupRepository(datasource: getit()));
-    getit.registerFactory<RegisterUseCase>(
-        () => RegisterUseCase(repository: getit()));
-    getit.registerFactory<SignupCubit>(
-        () => SignupCubit(registerusecase: getit()));
+    getIt.registerFactory<SignupRepositoryImp>(
+        () => SignupRepository(datasource: getIt()));
+    getIt.registerFactory<RegisterUseCase>(
+        () => RegisterUseCase(repository: getIt()));
+    getIt.registerFactory<SignupCubit>(
+        () => SignupCubit(registerusecase: getIt()));
   }
 }

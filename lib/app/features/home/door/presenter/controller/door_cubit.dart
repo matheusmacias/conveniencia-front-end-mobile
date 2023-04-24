@@ -8,7 +8,7 @@ class DoorCubit extends Cubit<DoorState> {
   DoorCubit({required this.doorUseCase}) : super(DoorInitial());
   final DoorUseCase doorUseCase;
 
-  Future<void> login(FormDoorModel formDoorModel) async{
+  Future<void> openDoor(FormDoorModel formDoorModel) async{
     emit(DoorLoading());
     final results = await doorUseCase(formDoorModel);
     results.fold((l) => emit(DoorError(l)), (r) => emit(DoorSuccessfull(r)));

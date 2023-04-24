@@ -130,8 +130,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextButton(
                           onPressed: () => {
-                                Navigator.popUntil(
-                                    context, ModalRoute.withName(Routes.login)),
+                                Navigator.popAndPushNamed(context, Routes.login)
                               },
                           child: const Text(
                             "Já tenho uma conta, Entrar!",
