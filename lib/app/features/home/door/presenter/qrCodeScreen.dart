@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 
 import 'controller/door_state.dart';
@@ -35,16 +36,27 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
           '#ff6666', 'Cancelar', true, ScanMode.QR);
 
       if(barcodeScanRes != const String.fromEnvironment('URL_SITE')){
-        barcodeScanRes = 'Ops!! QRCode inválido, tente novamente';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("OPS!!! QRcode inválido.")),
+        );
+        return;
       }else{
-        barcodeScanRes = 'QRcode detectado!';
-        cubit.openDoor(FormDoorModel(token: "token"));
+        barcodeScanRes = 'Carregando...';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(barcodeScanRes)),
+        );
+        final flutterSecureStorage = const FlutterSecureStorage();
+        String? token = await flutterSecureStorage.read(key: 'jwt_token') ?? "";
+        cubit.openDoor(FormDoorModel(token: token));
       }
       setState(() {
         _ticket = barcodeScanRes;
       });
     } on PlatformException {
       barcodeScanRes = 'Falha ao obter a versão da plataforma.';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(barcodeScanRes)),
+      );
     } finally {
       setState(() {
         _isLoading = false;
@@ -71,9 +83,6 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Leitor de QR Code'),
-        ),
         body:
         Center(
           child: Column(
@@ -82,15 +91,18 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
               if (_isLoading)
                 const CircularProgressIndicator()
               else
-                if (_ticket.isNotEmpty)
-                  Text('$_ticket')
-                else
-                  const Text('Pressione o botão para ler o QR Code'),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _readQRCode,
-                child: const Text('ABRIR A PORTA'),
-              ),
+                ElevatedButton(
+                  onPressed: _readQRCode,
+                  child: Column(
+                    children: const [
+                      Icon(Icons.qr_code, size: 100),
+                      Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Text("ABRIR PORTA"),
+                      )
+                    ],
+                  ),
+                ),
             ],
           ),
         ),

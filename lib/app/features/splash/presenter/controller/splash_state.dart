@@ -1,3 +1,5 @@
+import '../../../../common/error/failure.dart';
+
 abstract class SplashState {}
 
 class SplashInitial extends SplashState {}

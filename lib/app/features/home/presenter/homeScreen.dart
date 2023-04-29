@@ -25,6 +25,33 @@ class _HomeScreenState extends State<HomeScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Loja Autônoma'),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            const DrawerHeader(
+              child: Text('Menu'),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
+            ListTile(
+              title: Text('Configurações'),
+              onTap: () {
+                // Código para lidar com a seleção da opção 1
+              },
+            ),
+            ListTile(
+              title: const Text('Sair',style: TextStyle(color: Colors.red)),
+              onTap: () {
+                // Código para lidar com a seleção da opção 2
+              },
+            ),
+          ],
+        ),
+      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex)
       ),

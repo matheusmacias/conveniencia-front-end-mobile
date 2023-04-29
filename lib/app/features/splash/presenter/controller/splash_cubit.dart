@@ -1,4 +1,3 @@
-import 'package:conveniencia/app/features/signup/presenter/controller/signup_state.dart';
 import 'package:conveniencia/app/features/splash/data/models/splash_model.dart';
 import 'package:conveniencia/app/features/splash/domain/usecases/splash_usecase.dart';
 import 'package:conveniencia/app/features/splash/presenter/controller/splash_state.dart';

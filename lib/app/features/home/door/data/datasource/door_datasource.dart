@@ -13,13 +13,13 @@ class DoorDatasource implements DoorDatasourceImpl{
   @override
   Future<Map<String, dynamic>> openDoor(FormDoorModel formDoorModel) async {
     try{
-      _prefs = await SharedPreferences.getInstance();
-      final token = _prefs.getString('token');
+      print("---------------");
+      print('test ${formDoorModel.token}');
       final response = await http.post(url, body:{
         'token': formDoorModel.token
       },
       headers: {
-        'Authorization': 'Bearer $token'
+        'Authorization': 'Bearer ${formDoorModel.token}'
       });
       if(response.statusCode != 200){
         Map<String, dynamic> jsonObj = json.decode(response.body);

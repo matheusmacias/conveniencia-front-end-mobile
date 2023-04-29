@@ -27,8 +27,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _loadSplash() async {
     flutterSecureStorage = const FlutterSecureStorage();
-    String? token = await flutterSecureStorage.read(key: 'jwt_token');
-    cubit.load(SplashModel(token: token!));
+    String? token = await flutterSecureStorage.read(key: 'jwt_token') ?? "";
+
+    cubit.load(SplashModel(token: token));
   }
 
   @override
@@ -37,12 +38,16 @@ class _SplashScreenState extends State<SplashScreen> {
       body: BlocListener<SplashCubit, SplashState>(
         bloc: cubit,
         listener: (context, state){
+          if(state is SplashLoading){
+            print("is loading");
+          }
           if(state is SplashLoggingIn){
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
           }
           if(state is SplashLoggingOut){
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
           }
+
         },
         child: const Center(
           child: Text(

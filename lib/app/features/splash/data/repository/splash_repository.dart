@@ -12,9 +12,9 @@ class SplashRepository implements SplashRepositoryImp{
   @override
   Future<Either<Failure, void>> load(SplashModel splashModel) async {
     try{
-      final results = splashDatasourceImpl.load(splashModel);
+      final results = await splashDatasourceImpl.load(splashModel);
       return Right(results);
-    }on Failure catch(e){
+    } on Failure catch(e){
       return Left(e);
     }
   }
